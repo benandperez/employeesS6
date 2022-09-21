@@ -106,6 +106,11 @@ class Employees
         return $this->id;
     }
 
+    public function getFullName(): string
+    {
+        return $this->getFirstName() . " " . $this->getSecondName(). " " . $this->getLastName();
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
