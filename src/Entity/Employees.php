@@ -101,6 +101,33 @@ class Employees
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $favoriteHobby = null;
 
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?DocumentType $documentType = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Gender $gender = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?MaritalStatus $maritalStatus = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Province $province = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Corregimiento $corregimiento = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?District $district = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?LicenseType $licenseType = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?BloodType $bloodType = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Bank $bank = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -455,6 +482,114 @@ class Employees
     public function setFavoriteHobby(?string $favoriteHobby): self
     {
         $this->favoriteHobby = $favoriteHobby;
+
+        return $this;
+    }
+
+    public function getDocumentType(): ?DocumentType
+    {
+        return $this->documentType;
+    }
+
+    public function setDocumentType(?DocumentType $documentType): self
+    {
+        $this->documentType = $documentType;
+
+        return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getMaritalStatus(): ?MaritalStatus
+    {
+        return $this->maritalStatus;
+    }
+
+    public function setMaritalStatus(?MaritalStatus $maritalStatus): self
+    {
+        $this->maritalStatus = $maritalStatus;
+
+        return $this;
+    }
+
+    public function getProvince(): ?Province
+    {
+        return $this->province;
+    }
+
+    public function setProvince(?Province $province): self
+    {
+        $this->province = $province;
+
+        return $this;
+    }
+
+    public function getCorregimiento(): ?Corregimiento
+    {
+        return $this->corregimiento;
+    }
+
+    public function setCorregimiento(?Corregimiento $corregimiento): self
+    {
+        $this->corregimiento = $corregimiento;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?District
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?District $district): self
+    {
+        $this->district = $district;
+
+        return $this;
+    }
+
+    public function getLicenseType(): ?LicenseType
+    {
+        return $this->licenseType;
+    }
+
+    public function setLicenseType(?LicenseType $licenseType): self
+    {
+        $this->licenseType = $licenseType;
+
+        return $this;
+    }
+
+    public function getBloodType(): ?BloodType
+    {
+        return $this->bloodType;
+    }
+
+    public function setBloodType(?BloodType $bloodType): self
+    {
+        $this->bloodType = $bloodType;
+
+        return $this;
+    }
+
+    public function getBank(): ?Bank
+    {
+        return $this->bank;
+    }
+
+    public function setBank(?Bank $bank): self
+    {
+        $this->bank = $bank;
 
         return $this;
     }
