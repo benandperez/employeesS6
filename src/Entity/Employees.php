@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EmployeesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -127,6 +129,34 @@ class Employees
 
     #[ORM\ManyToOne(inversedBy: 'employees')]
     private ?Bank $bank = null;
+    
+    // Seccion de Información Laboral ALEPH GROUP
+
+    #[ORM\ManyToMany(targetEntity: PlaceWork::class, inversedBy: 'employees')]
+    private Collection $placeWork;
+
+    #[ORM\Column]
+    private ?bool $familyCompany = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $familyCompanyText = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateJoiningCompany = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?CompanyPosition $companyPosition = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?EmployeeType $employeeType = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?CompanyDepartment $companyDepartment = null;
+
+    public function __construct()
+    {
+        $this->placeWork = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -590,6 +620,104 @@ class Employees
     public function setBank(?Bank $bank): self
     {
         $this->bank = $bank;
+
+        return $this;
+    }
+
+    // Seccion de Información Laboral ALEPH GROUP
+
+    /**
+     * @return Collection<int, PlaceWork>
+     */
+    public function getPlaceWork(): Collection
+    {
+        return $this->placeWork;
+    }
+
+    public function addPlaceWork(PlaceWork $placeWork): self
+    {
+        if (!$this->placeWork->contains($placeWork)) {
+            $this->placeWork->add($placeWork);
+        }
+
+        return $this;
+    }
+
+    public function removePlaceWork(PlaceWork $placeWork): self
+    {
+        $this->placeWork->removeElement($placeWork);
+
+        return $this;
+    }
+
+    public function isFamilyCompany(): ?bool
+    {
+        return $this->familyCompany;
+    }
+
+    public function setFamilyCompany(bool $familyCompany): self
+    {
+        $this->familyCompany = $familyCompany;
+
+        return $this;
+    }
+
+    public function getFamilyCompanyText(): ?string
+    {
+        return $this->familyCompanyText;
+    }
+
+    public function setFamilyCompanyText(?string $familyCompanyText): self
+    {
+        $this->familyCompanyText = $familyCompanyText;
+
+        return $this;
+    }
+
+    public function getDateJoiningCompany(): ?\DateTimeInterface
+    {
+        return $this->dateJoiningCompany;
+    }
+
+    public function setDateJoiningCompany(\DateTimeInterface $dateJoiningCompany): self
+    {
+        $this->dateJoiningCompany = $dateJoiningCompany;
+
+        return $this;
+    }
+
+    public function getCompanyPosition(): ?CompanyPosition
+    {
+        return $this->companyPosition;
+    }
+
+    public function setCompanyPosition(?CompanyPosition $companyPosition): self
+    {
+        $this->companyPosition = $companyPosition;
+
+        return $this;
+    }
+
+    public function getEmployeeType(): ?EmployeeType
+    {
+        return $this->employeeType;
+    }
+
+    public function setEmployeeType(?EmployeeType $employeeType): self
+    {
+        $this->employeeType = $employeeType;
+
+        return $this;
+    }
+
+    public function getCompanyDepartment(): ?CompanyDepartment
+    {
+        return $this->companyDepartment;
+    }
+
+    public function setCompanyDepartment(?CompanyDepartment $companyDepartment): self
+    {
+        $this->companyDepartment = $companyDepartment;
 
         return $this;
     }

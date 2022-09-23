@@ -41,6 +41,9 @@ class EmployeesType extends AbstractType
             ->add('sportsPractice')
             ->add('whatSports')
             ->add('favoriteHobby')
+            ->add('familyCompany')
+            ->add('familyCompanyText')
+            ->add('dateJoiningCompany')
             ->add('documentType')
             ->add('gender')
             ->add('maritalStatus')
@@ -50,6 +53,10 @@ class EmployeesType extends AbstractType
             ->add('licenseType')
             ->add('bloodType')
             ->add('bank')
+            ->add('placeWork')
+            ->add('companyPosition')
+            ->add('employeeType')
+            ->add('companyDepartment')
         ;
     }
 
