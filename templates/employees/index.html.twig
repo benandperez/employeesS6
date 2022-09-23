@@ -82,35 +82,3 @@
         </div>
     </div>
 {% endblock %}
-{% block myScripts %}
-    <script type="text/javascript">
-
-        $('.question-collection').collection({
-            allow_down: false,
-            allow_up:false,
-            min: 1,
-            prefix: 'quiz-question',
-            children: [{
-                prefix: 'quiz-answer',
-                selector: '.answers-collection',
-                min: 2,
-                max:5,
-                allow_down: false,
-                allow_up:false,
-            }]
-        });
-
-        (function ($) {
-            $(document).ready(function () {
-
-                $(document).on('change', '.js-quiz-answers-container :radio', function(e){
-                    var $this = $(this);
-                    var $container =  $this.closest('.js-quiz-answers-container');
-
-                    $container.find(':radio').not($this).prop('checked', false);
-                });
-            });
-        })(jQuery);
-
-    </script>
-{% endblock %}

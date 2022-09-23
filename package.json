@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "symfony-collection-js": "^4.2.2"
+  }
+}

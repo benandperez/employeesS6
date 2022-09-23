@@ -78,6 +78,7 @@
         </div>
 
         {% block javascripts %}
+        
             <!--[if lt IE 9]>
             <script src="{{ asset('assets/js/html5shiv.min.js') }}"></script>
             <script src="{{ asset('assets/js/respond.min.js') }}"></script>
@@ -101,11 +102,19 @@
             <script src="{{ asset('assets/js/moment.min.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
+            <script src="{{ asset('assets/js/jquery.collection.js') }}"></script>
+
             <!-- Custom JS -->
             <script src="{{ asset('assets/js/app.js') }}"></script>
         {% endblock %}
         {% block myScripts %}
-
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.my-selector').collection();
+            });
         {% endblock %}
+
+    </script>
+ 
     </body>
 </html>
