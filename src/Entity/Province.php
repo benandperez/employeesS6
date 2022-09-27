@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProvinceRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProvinceRepository::class)]
 class Province
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,9 +27,13 @@ class Province
     #[ORM\OneToMany(mappedBy: 'province', targetEntity: Employees::class)]
     private Collection $employees;
 
+    #[ORM\OneToMany(mappedBy: 'province', targetEntity: District::class)]
+    private Collection $districts;
+
     public function __construct()
     {
         $this->employees = new ArrayCollection();
+        $this->districts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +89,36 @@ class Province
             // set the owning side to null (unless already changed)
             if ($employee->getProvince() === $this) {
                 $employee->setProvince(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, District>
+     */
+    public function getDistricts(): Collection
+    {
+        return $this->districts;
+    }
+
+    public function addDistrict(District $district): self
+    {
+        if (!$this->districts->contains($district)) {
+            $this->districts->add($district);
+            $district->setProvince($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDistrict(District $district): self
+    {
+        if ($this->districts->removeElement($district)) {
+            // set the owning side to null (unless already changed)
+            if ($district->getProvince() === $this) {
+                $district->setProvince(null);
             }
         }
 

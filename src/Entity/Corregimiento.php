@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CorregimientoRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CorregimientoRepository::class)]
 class Corregimiento
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,6 +26,9 @@ class Corregimiento
 
     #[ORM\OneToMany(mappedBy: 'corregimiento', targetEntity: Employees::class)]
     private Collection $employees;
+
+    #[ORM\ManyToOne(inversedBy: 'corregimientos')]
+    private ?District $district = null;
 
     public function __construct()
     {
@@ -84,6 +90,18 @@ class Corregimiento
                 $employee->setCorregimiento(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDistrict(): ?District
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?District $district): self
+    {
+        $this->district = $district;
 
         return $this;
     }

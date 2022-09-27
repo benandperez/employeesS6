@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EmployeesRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EmployeesRepository::class)]
 class Employees
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -153,9 +156,13 @@ class Employees
     #[ORM\ManyToOne(inversedBy: 'employees')]
     private ?CompanyDepartment $companyDepartment = null;
 
+    #[ORM\ManyToMany(targetEntity: PersonalReferences::class, inversedBy: 'employees', cascade: ['persist'])]
+    private Collection $personalReferences;
+
     public function __construct()
     {
         $this->placeWork = new ArrayCollection();
+        $this->personalReferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -718,6 +725,30 @@ class Employees
     public function setCompanyDepartment(?CompanyDepartment $companyDepartment): self
     {
         $this->companyDepartment = $companyDepartment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonalReferences>
+     */
+    public function getPersonalReferences(): Collection
+    {
+        return $this->personalReferences;
+    }
+
+    public function addPersonalReference(PersonalReferences $personalReference): self
+    {
+        if (!$this->personalReferences->contains($personalReference)) {
+            $this->personalReferences->add($personalReference);
+        }
+
+        return $this;
+    }
+
+    public function removePersonalReference(PersonalReferences $personalReference): self
+    {
+        $this->personalReferences->removeElement($personalReference);
 
         return $this;
     }

@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\EducationLevelRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EducationLevelRepository::class)]
 class EducationLevel
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

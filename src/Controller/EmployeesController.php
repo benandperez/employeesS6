@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Employees;
+use App\Entity\PersonalReferences;
 use App\Form\EmployeesType;
 use App\Repository\EmployeesRepository;
+use App\Repository\PersonalReferencesRepository;
+use PhpParser\Node\Expr\New_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +25,27 @@ class EmployeesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_employees_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EmployeesRepository $employeesRepository): Response
+    public function new(Request $request, EmployeesRepository $employeesRepository, PersonalReferencesRepository $personalReferencesRepository): Response
     {
         $employee = new Employees();
         $form = $this->createForm(EmployeesType::class, $employee);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+//            foreach ($employee->getPersonalReferences() as $item) {
+////                dump($item);
+////               $personalReference = new PersonalReferences($item);
+////               $personalReference->setName($item->getName());
+////               $personalReference->setBirthDay($item->getBirthDay());
+////
+//////                $personalReference =  $personalReferencesRepository->add($item,true);
+////                dd($personalReference);
+//                $employee->addPersonalReference($item);
+//
+//            }
+//            dump($employee->getPersonalReferences());
+//            dd($request->request);
+//            $employee->addPersonalReference()
             $employeesRepository->add($employee, true);
 
             return $this->redirectToRoute('app_employees_index', [], Response::HTTP_SEE_OTHER);

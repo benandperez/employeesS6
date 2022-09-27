@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\FamilyNucleusRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FamilyNucleusRepository::class)]
 class FamilyNucleus
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

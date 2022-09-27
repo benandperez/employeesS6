@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RelationshipRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RelationshipRepository::class)]
 class Relationship
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -121,4 +124,9 @@ class Relationship
 
         return $this;
     }
+    public function __toString(): string
+    {
+        return (string) $this->getName();
+    }
+
 }

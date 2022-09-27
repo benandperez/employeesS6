@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\WorkingInformationRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkingInformationRepository::class)]
 class WorkingInformation
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

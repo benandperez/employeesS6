@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\StudiesCurrentlyRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudiesCurrentlyRepository::class)]
 class StudiesCurrently
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

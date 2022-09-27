@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LicenseTypeRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LicenseTypeRepository::class)]
 class LicenseType
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -86,5 +89,10 @@ class LicenseType
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getName();
     }
 }

@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\RolesRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RolesRepository::class)]
 class Roles
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

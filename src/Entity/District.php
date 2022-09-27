@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DistrictRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: DistrictRepository::class)]
 class District
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,9 +27,16 @@ class District
     #[ORM\OneToMany(mappedBy: 'district', targetEntity: Employees::class)]
     private Collection $employees;
 
+    #[ORM\ManyToOne(inversedBy: 'districts')]
+    private ?Province $province = null;
+
+    #[ORM\OneToMany(mappedBy: 'district', targetEntity: Corregimiento::class)]
+    private Collection $corregimientos;
+
     public function __construct()
     {
         $this->employees = new ArrayCollection();
+        $this->corregimientos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +92,48 @@ class District
             // set the owning side to null (unless already changed)
             if ($employee->getDistrict() === $this) {
                 $employee->setDistrict(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProvince(): ?Province
+    {
+        return $this->province;
+    }
+
+    public function setProvince(?Province $province): self
+    {
+        $this->province = $province;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Corregimiento>
+     */
+    public function getCorregimientos(): Collection
+    {
+        return $this->corregimientos;
+    }
+
+    public function addCorregimiento(Corregimiento $corregimiento): self
+    {
+        if (!$this->corregimientos->contains($corregimiento)) {
+            $this->corregimientos->add($corregimiento);
+            $corregimiento->setDistrict($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorregimiento(Corregimiento $corregimiento): self
+    {
+        if ($this->corregimientos->removeElement($corregimiento)) {
+            // set the owning side to null (unless already changed)
+            if ($corregimiento->getDistrict() === $this) {
+                $corregimiento->setDistrict(null);
             }
         }
 

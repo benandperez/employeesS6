@@ -110,7 +110,20 @@
         {% block myScripts %}
         <script type="text/javascript">
             $(document).ready(function(){
-                $('.my-selector').collection();
+                $('.my-selector').collection({
+                    allow_down: false,
+                    allow_up:false,
+                    min: 1,
+                    prefix: 'quiz-question',
+                    /*children: [{
+                        prefix: 'quiz-answer',
+                        selector: '.answers-collection',
+                        min: 2,
+                        max:5,
+                        allow_down: false,
+                        allow_up:false,
+                    }]*/
+                });
             });
         {% endblock %}
 

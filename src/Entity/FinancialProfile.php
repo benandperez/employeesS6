@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\FinancialProfileRepository;
+use App\Util\TimeStampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FinancialProfileRepository::class)]
 class FinancialProfile
 {
+    use TimeStampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Bank;
 use App\Entity\BloodType;
+use App\Entity\CompanyDepartment;
 use App\Entity\Corregimiento;
 use App\Entity\District;
 use App\Entity\DocumentType;
 use App\Entity\Employees;
+use App\Entity\EmployeeType;
 use App\Entity\Gender;
 use App\Entity\LicenseType;
 use App\Entity\MaritalStatus;
@@ -137,6 +139,7 @@ class EmployeesType extends AbstractType
                     'autocomplete' => 'off',
                 ],
             ])
+
             ->add('province', EntityType::class, [
                 'class' => Province::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -147,17 +150,6 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Provincia: ',
-            ])
-            ->add('corregimiento', EntityType::class, [
-                'class' => Corregimiento::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->andWhere('c.status = :status')
-                        ->setParameter('status', '1')
-                        ->orderBy('c.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'label' => 'Corregimiento: ',
             ])
             ->add('district', EntityType::class, [
                 'class' => District::class,
@@ -170,6 +162,18 @@ class EmployeesType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Distrito: ',
             ])
+            ->add('corregimiento', EntityType::class, [
+                'class' => Corregimiento::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->andWhere('c.status = :status')
+                        ->setParameter('status', '1')
+                        ->orderBy('c.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'label' => 'Corregimiento: ',
+            ])
+
             ->add('personalEmail', EmailType::class, [
                 'required' => true,
                 'label' => 'E-mail Personal: ',
@@ -349,7 +353,7 @@ class EmployeesType extends AbstractType
                 ],
             ])
             ->add('employeeType', EntityType::class, [
-                'class' => Bank::class,
+                'class' => EmployeeType::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('et')
                         ->andWhere('et.status = :status')
@@ -360,7 +364,7 @@ class EmployeesType extends AbstractType
                 'label' => 'Tipo de empleado: ',
             ])
             ->add('companyDepartment', EntityType::class, [
-                'class' => Bank::class,
+                'class' => CompanyDepartment::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('cd')
                         ->andWhere('cd.status = :status')
@@ -408,8 +412,11 @@ class EmployeesType extends AbstractType
                     'autocomplete' => 'off',
                 ],
             ])
-            /*->add('placeWork', CollectionType::class, [
-                'entry_type' => PlaceWorkType::class,
+
+
+
+            ->add('personalReferences', CollectionType::class, [
+                'entry_type' => PersonalReferencesType::class,
                 'by_reference' => false,
                 'allow_add'    => true,
                 'allow_delete' => true,
@@ -422,7 +429,7 @@ class EmployeesType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                 ],
-            ])*/
+            ])
             
             ;
     }
