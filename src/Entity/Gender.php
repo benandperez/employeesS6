@@ -24,9 +24,17 @@ class Gender
     #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Employees::class)]
     private Collection $employees;
 
+    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: FamilyNucleus::class)]
+    private Collection $familyNuclei;
+
+    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: PersonalReferences::class)]
+    private Collection $personalReferences;
+
     public function __construct()
     {
         $this->employees = new ArrayCollection();
+        $this->familyNuclei = new ArrayCollection();
+        $this->personalReferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +90,66 @@ class Gender
             // set the owning side to null (unless already changed)
             if ($employee->getGender() === $this) {
                 $employee->setGender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FamilyNucleus>
+     */
+    public function getFamilyNuclei(): Collection
+    {
+        return $this->familyNuclei;
+    }
+
+    public function addFamilyNucleus(FamilyNucleus $familyNucleus): self
+    {
+        if (!$this->familyNuclei->contains($familyNucleus)) {
+            $this->familyNuclei->add($familyNucleus);
+            $familyNucleus->setGender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamilyNucleus(FamilyNucleus $familyNucleus): self
+    {
+        if ($this->familyNuclei->removeElement($familyNucleus)) {
+            // set the owning side to null (unless already changed)
+            if ($familyNucleus->getGender() === $this) {
+                $familyNucleus->setGender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonalReferences>
+     */
+    public function getPersonalReferences(): Collection
+    {
+        return $this->personalReferences;
+    }
+
+    public function addPersonalReference(PersonalReferences $personalReference): self
+    {
+        if (!$this->personalReferences->contains($personalReference)) {
+            $this->personalReferences->add($personalReference);
+            $personalReference->setGender($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonalReference(PersonalReferences $personalReference): self
+    {
+        if ($this->personalReferences->removeElement($personalReference)) {
+            // set the owning side to null (unless already changed)
+            if ($personalReference->getGender() === $this) {
+                $personalReference->setGender(null);
             }
         }
 

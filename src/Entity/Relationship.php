@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DocumentTypeRepository;
+use App\Repository\RelationshipRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DocumentTypeRepository::class)]
-class DocumentType
+#[ORM\Entity(repositoryClass: RelationshipRepository::class)]
+class Relationship
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,15 +21,15 @@ class DocumentType
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'documentType', targetEntity: Employees::class)]
-    private Collection $employees;
+    #[ORM\OneToMany(mappedBy: 'relationship', targetEntity: PersonalReferences::class)]
+    private Collection $personalReferences;
 
-    #[ORM\OneToMany(mappedBy: 'documentType', targetEntity: FamilyNucleus::class)]
+    #[ORM\OneToMany(mappedBy: 'relationship', targetEntity: FamilyNucleus::class)]
     private Collection $familyNuclei;
 
     public function __construct()
     {
-        $this->employees = new ArrayCollection();
+        $this->personalReferences = new ArrayCollection();
         $this->familyNuclei = new ArrayCollection();
     }
 
@@ -63,29 +63,29 @@ class DocumentType
     }
 
     /**
-     * @return Collection<int, Employees>
+     * @return Collection<int, PersonalReferences>
      */
-    public function getEmployees(): Collection
+    public function getPersonalReferences(): Collection
     {
-        return $this->employees;
+        return $this->personalReferences;
     }
 
-    public function addEmployee(Employees $employee): self
+    public function addPersonalReference(PersonalReferences $personalReference): self
     {
-        if (!$this->employees->contains($employee)) {
-            $this->employees->add($employee);
-            $employee->setDocumentType($this);
+        if (!$this->personalReferences->contains($personalReference)) {
+            $this->personalReferences->add($personalReference);
+            $personalReference->setRelationship($this);
         }
 
         return $this;
     }
 
-    public function removeEmployee(Employees $employee): self
+    public function removePersonalReference(PersonalReferences $personalReference): self
     {
-        if ($this->employees->removeElement($employee)) {
+        if ($this->personalReferences->removeElement($personalReference)) {
             // set the owning side to null (unless already changed)
-            if ($employee->getDocumentType() === $this) {
-                $employee->setDocumentType(null);
+            if ($personalReference->getRelationship() === $this) {
+                $personalReference->setRelationship(null);
             }
         }
 
@@ -104,7 +104,7 @@ class DocumentType
     {
         if (!$this->familyNuclei->contains($familyNucleus)) {
             $this->familyNuclei->add($familyNucleus);
-            $familyNucleus->setDocumentType($this);
+            $familyNucleus->setRelationship($this);
         }
 
         return $this;
@@ -114,8 +114,8 @@ class DocumentType
     {
         if ($this->familyNuclei->removeElement($familyNucleus)) {
             // set the owning side to null (unless already changed)
-            if ($familyNucleus->getDocumentType() === $this) {
-                $familyNucleus->setDocumentType(null);
+            if ($familyNucleus->getRelationship() === $this) {
+                $familyNucleus->setRelationship(null);
             }
         }
 
