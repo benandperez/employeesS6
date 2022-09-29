@@ -21,7 +21,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,11 +32,14 @@ class EmployeesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            //Perfil
             ->add('firstName', null, [
                 'required' => true,
                 'label' => 'Primer Nombre: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Primer Nombre',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('secondName', null, [
@@ -42,6 +47,8 @@ class EmployeesType extends AbstractType
                 'label' => 'Segundo Nombre: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Segundo Nombre: ',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('lastName', null, [
@@ -49,6 +56,8 @@ class EmployeesType extends AbstractType
                 'label' => 'Apellido Paterno: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Apellido Paterno',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('motherLastName', null, [
@@ -56,6 +65,8 @@ class EmployeesType extends AbstractType
                 'label' => 'Apellido Materno: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Apellido Materno',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('marriedLastName', null, [
@@ -63,6 +74,17 @@ class EmployeesType extends AbstractType
                 'label' => 'Apellido de casada: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Apellido de casada',
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('nationality', null, [
+                'required' => true,
+                'label' => 'Nacionalidad: ',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'placeholder' => 'Nacionalidad',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('documentType', EntityType::class, [
@@ -75,39 +97,53 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Tipo de Documento: ',
+                'attr' => [
+                    'class' => 'select'
+                ],
             ])
             ->add('document', null, [
                 'required' => true,
-                'label' => 'No. de Identificación Cédula o pasaporte: ',
+                'label' => 'No. de Identificación Cédula o Pasaporte: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
-            ->add('expirationDate', null, [
+            ->add('expirationDate', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false,
                 'label' => 'Fecha de expiración: ',
-            ])
-            ->add('birthPlace', null, [
-                'required' => true,
-                'label' => 'Lugar de nacimiento:  ',
+                'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'form-control datetimepicker'
                 ],
             ])
-            ->add('nationality', null, [
-                'required' => true,
-                'label' => 'Nacionalidad: ',
-                'attr' => [
-                    'autocomplete' => 'off',
-                ],
-            ])
-            ->add('birthDay', null, [
+            ->add('birthDay', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false,
                 'label' => 'Fecha de nacimiento: ',
+                'format' => 'dd-MM-yyyy',
+                'attr' => [
+                    'class' => 'form-control datetimepicker'
+                ],
             ])
-            ->add('age', null, [
+
+            ->add('cellPhone', null, [
                 'required' => true,
-                'label' => 'Edad: ',
+                'label' => 'Teléfono Celular: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'placeholder' => 'Teléfono Celular',
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('personalEmail', EmailType::class, [
+                'required' => true,
+                'label' => 'E-mail Personal: ',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'placeholder' => 'E-mail Personal',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('gender', EntityType::class, [
@@ -120,6 +156,36 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Género: ',
+                'attr' => [
+                    'class' => 'select',
+                    'placeholder' => 'Género',
+                ],
+            ])
+            ->add('age', null, [
+                'required' => true,
+                'label' => 'Edad: ',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
+                ],
+            ])
+
+            //Personal Information
+            ->add('birthPlace', null, [
+                'required' => true,
+                'label' => 'Lugar de nacimiento:  ',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('fullResidenceAddress', null, [
+                'required' => true,
+                'label' => 'Dirección de residencia: ',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
+                ],
             ])
             ->add('maritalStatus', EntityType::class, [
                 'class' => MaritalStatus::class,
@@ -131,15 +197,10 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Estado civil: ',
-            ])
-            ->add('fullResidenceAddress', null, [
-                'required' => true,
-                'label' => 'Dirección de residencia completa: ',
                 'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'select',
                 ],
             ])
-
             ->add('province', EntityType::class, [
                 'class' => Province::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -150,6 +211,9 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Provincia: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
             ->add('district', EntityType::class, [
                 'class' => District::class,
@@ -161,6 +225,9 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Distrito: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
             ->add('corregimiento', EntityType::class, [
                 'class' => Corregimiento::class,
@@ -172,13 +239,8 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Corregimiento: ',
-            ])
-
-            ->add('personalEmail', EmailType::class, [
-                'required' => true,
-                'label' => 'E-mail Personal: ',
                 'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'select',
                 ],
             ])
             ->add('residentialTelephone', null, [
@@ -186,13 +248,35 @@ class EmployeesType extends AbstractType
                 'label' => 'Teléfono residencial: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
-            ->add('cellPhone', null, [
+            ->add('sportsPractice', ChoiceType::class, [
                 'required' => true,
-                'label' => 'Teléfono Celular: ',
+                'label' => '¿Práctica deporte?: ',
+                'choices'  => [
+                    'SÍ' => true,
+                    'NO' => false,
+                ],
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
+            ])
+            ->add('whatSports', null, [
+                'required' => true,
+                'label' => '¿Cuál?:',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('favoriteHobby', null, [
+                'required' => true,
+                'label' => '¿Su Hobbie preferido es?:',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('licenseType', EntityType::class, [
@@ -205,12 +289,18 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Tipo de Licencia de Conducir: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
-            ->add('expirationDateLicense', null, [
+            ->add('expirationDateLicense', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false,
                 'required' => true,
                 'label' => 'Fecha de expiración: ',
+                'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'form-control datetimepicker'
                 ],
             ])
             ->add('hasOwnCar', ChoiceType::class, [
@@ -221,12 +311,18 @@ class EmployeesType extends AbstractType
                     'NO' => false,
                 ],
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
+
+            // Emergency Contact
             ->add('inCaseOfEmergency', null, [
                 'required' => true,
                 'label' => 'En caso de emergencia llamar a: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('familyPhoneNumber', null, [
@@ -234,9 +330,9 @@ class EmployeesType extends AbstractType
                 'label' => 'No. de teléfono del familiar: ',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
-
             ->add('allergic', ChoiceType::class, [
                 'required' => true,
                 'label' => '¿Es alérgico a algún medicamento o comida?: ',
@@ -245,12 +341,16 @@ class EmployeesType extends AbstractType
                     'NO' => false,
                 ],
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
             ->add('allergicYes', null, [
                 'required' => true,
                 'label' => false,
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('chronicDisease', ChoiceType::class, [
@@ -261,12 +361,16 @@ class EmployeesType extends AbstractType
                     'NO' => false,
                 ],
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
             ->add('chronicDiseaseYes', null, [
                 'required' => true,
                 'label' => false,
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('bloodType', EntityType::class, [
@@ -279,6 +383,9 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Tipo de sangre: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
             ->add('bloodDonor', ChoiceType::class, [
                 'required' => true,
@@ -288,17 +395,12 @@ class EmployeesType extends AbstractType
                     'NO' => false,
                 ],
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
 
-            ->add('bankAccount', ChoiceType::class, [
-                'required' => true,
-                'label' => '¿Tiene cuenta bancaria de ahorro?: ',
-                'choices'  => [
-                    'SÍ' => true,
-                    'NO' => false,
-                ],
-                'expanded' => true,
-            ])
+            //Bank information
             ->add('bank', EntityType::class, [
                 'class' => Bank::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -309,47 +411,38 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Banco: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
+            ])
+            ->add('bankAccount', ChoiceType::class, [
+                'required' => true,
+                'label' => '¿Tiene cuenta bancaria de ahorro?: ',
+                'choices'  => [
+                    'SÍ' => true,
+                    'NO' => false,
+                ],
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
             ->add('accountNumber', null, [
                 'required' => true,
                 'label' => 'No. de cuenta:',
                 'attr' => [
                     'autocomplete' => 'off',
-                ],
-            ])
-            ->add('sportsPractice', ChoiceType::class, [
-                'required' => true,
-                'label' => '¿Práctica deporte?: ',
-                'choices'  => [
-                    'SÍ' => true,
-                    'NO' => false,
-                ],
-                'expanded' => true,
-            ])
-            ->add('whatSports', null, [
-                'required' => true,
-                'label' => '¿Cuál?:',
-                'attr' => [
-                    'autocomplete' => 'off',
-                ],
-            ])
-            ->add('favoriteHobby', null, [
-                'required' => true,
-                'label' => '¿Su Hobbie preferido es?:',
-                'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
 
-
-
-
-
+            //Información Laboral ALEPH GROUP
             ->add('companyPosition', null, [
                 'required' => true,
                 'label' => 'Cargo en la empresa:',
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
             ->add('employeeType', EntityType::class, [
@@ -362,6 +455,9 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Tipo de empleado: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
             ->add('companyDepartment', EntityType::class, [
                 'class' => CompanyDepartment::class,
@@ -373,12 +469,18 @@ class EmployeesType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'label' => 'Departamento: ',
+                'attr' => [
+                    'class' => 'select',
+                ],
             ])
-            ->add('dateJoiningCompany', null, [
+            ->add('dateJoiningCompany', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => false,
                 'required' => true,
                 'label' => 'Fecha de ingreso a la empresa: ',
+                'format' => 'dd-MM-yyyy',
                 'attr' => [
-                    'autocomplete' => 'off',
+                    'class' => 'form-control datetimepicker'
                 ],
             ])
             ->add('placeWork', EntityType::class, [
@@ -393,9 +495,11 @@ class EmployeesType extends AbstractType
                 'label' => 'Lugar donde desarrolla su trabajo: ',
                 'placeholder' => 'Select',
                 'multiple' => true ,
-                'attr' => ['data-placeholder' => 'choose roles'] ,
+                'attr' => [
+                    'data-placeholder' => 'choose roles',
+                    'class' => 'select',
+                ] ,
             ])
-                
             ->add('familyCompany', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Tiene algún familiar laborando en la empresa: ',
@@ -404,12 +508,16 @@ class EmployeesType extends AbstractType
                     'NO' => false,
                 ],
                 'expanded' => true,
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
             ])
             ->add('familyCompanyText', null, [
                 'required' => true,
                 'label' => false,
                 'attr' => [
                     'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ],
             ])
 

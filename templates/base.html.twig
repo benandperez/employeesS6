@@ -71,7 +71,12 @@
                             </div>
                         </div>
                     </div>
-                    {% block body %}{% endblock %}
+                    {% block body %}
+                        {%
+                            form_theme form
+                            'jquery.collection.html.twig'
+                        %}
+                    {% endblock %}
 
                 </div>
             </div>
@@ -115,14 +120,6 @@
                     allow_up:false,
                     min: 1,
                     prefix: 'quiz-question',
-                    /*children: [{
-                        prefix: 'quiz-answer',
-                        selector: '.answers-collection',
-                        min: 2,
-                        max:5,
-                        allow_down: false,
-                        allow_up:false,
-                    }]*/
                 });
             });
         {% endblock %}

@@ -8,6 +8,7 @@ use App\Entity\BloodType;
 use App\Entity\Corregimiento;
 use App\Entity\District;
 use App\Entity\DocumentType;
+use App\Entity\EmployeeType;
 use App\Entity\Gender;
 use App\Entity\LanguageLevel;
 use App\Entity\LicenseType;
@@ -45,6 +46,24 @@ class AppFixtures extends Fixture
         $user2->setRoles(["ROLE_USER"]);
         $manager->persist($user2);
 
+
+        /**
+         * Data Tipo de Empleado
+         */
+
+        $employeeType = new EmployeeType();
+        $employeeType->setName('Permanente');
+        $employeeType->setStatus(true);
+        $employeeType->setCreatedAt(new \DateTime());
+        $employeeType->setUpdatedAt(new \DateTime());
+        $manager->persist($employeeType);
+
+        $employeeType = new EmployeeType();
+        $employeeType->setName('Eventual');
+        $employeeType->setStatus(true);
+        $employeeType->setCreatedAt(new \DateTime());
+        $employeeType->setUpdatedAt(new \DateTime());
+        $manager->persist($employeeType);
 
         /**
          * Data Tipo de Identificacion
